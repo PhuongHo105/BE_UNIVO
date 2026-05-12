@@ -1,0 +1,106 @@
+# ===============================
+# Spring Boot
+# ===============================
+
+HELP.md
+logs/
+*.log
+
+# ===============================
+# Gradle
+# ===============================
+
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Ignore nested build folders
+**/build/
+
+# ===============================
+# Java
+# ===============================
+
+*.class
+*.jar
+*.war
+*.ear
+
+# ===============================
+# IntelliJ IDEA
+# ===============================
+
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ===============================
+# VS Code
+# ===============================
+
+.vscode/
+
+# ===============================
+# Eclipse / STS
+# ===============================
+
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+bin/
+
+# ===============================
+# NetBeans
+# ===============================
+
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ===============================
+# OS Files
+# ===============================
+
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Environment Variables
+# ===============================
+
+.env
+.env.*
+
+# ===============================
+# Application Config Secrets
+# ===============================
+
+application-local.properties
+application-secret.properties
+
+# ===============================
+# PostgreSQL
+# ===============================
+
+*.sql
+*.dump
+
+# ===============================
+# Lombok
+# ===============================
+
+lombok.config
+
+# ===============================
+# Generated Files
+# ===============================
+
+generated/
