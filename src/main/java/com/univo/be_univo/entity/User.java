@@ -15,9 +15,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(unique = true, nullable = false, length = 30)
+    private String uid;
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
+    @Column(unique = true, nullable = false)
     private String phoneNumber;
+    private String name;
     @Enumerated(EnumType.STRING)
     private UserBadge badge;
     private int point;
