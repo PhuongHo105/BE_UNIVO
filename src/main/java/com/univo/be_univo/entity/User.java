@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -28,4 +29,8 @@ public class User {
     private int point;
     private byte level;
     private boolean status;
+    private String passwordResetToken;
+    private Instant passwordResetTokenExpiresAt;
+    private String passwordResetOtp;
+    private Instant passwordResetOtpExpiresAt;
 }
