@@ -17,6 +17,9 @@ import java.util.UUID;
 
 @Service
 public class UserService {
+    private static final int UID_RANDOM_LENGTH = 12;
+    private static final int UID_GENERATION_MAX_ATTEMPTS = 10;
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -38,11 +41,7 @@ public class UserService {
     }
 
     public UserResponse createUser(CreateUserRequest request) {
-        String uid = normalizeUid(request.uid());
-
-        if (userRepository.existsByUid(uid)) {
-            throw new IllegalArgumentException("Uid already exists");
-        }
+        String uid = generateUniqueUid();
 
         if (userRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("Email already exists");
@@ -105,6 +104,21 @@ public class UserService {
 
     private String normalizeUid(String uid) {
         return uid.trim().toLowerCase(Locale.ROOT);
+    }
+
+    private String generateUniqueUid() {
+        for (int attempt = 0; attempt < UID_GENERATION_MAX_ATTEMPTS; attempt++) {
+            String uid = "u" + UUID.randomUUID()
+                    .toString()
+                    .replace("-", "")
+                    .substring(0, UID_RANDOM_LENGTH);
+
+            if (!userRepository.existsByUid(uid)) {
+                return uid;
+            }
+        }
+
+        throw new IllegalArgumentException("Could not generate unique uid");
     }
 
     public Optional<UserResponse> addPoint(UUID id, AddUserPointRequest request) {
