@@ -74,7 +74,7 @@ public class AuthService {
     }
 
     public void forgotPassword(ForgotPasswordRequest request) {
-        userRepository.findByEmail(request.email())
+        userRepository.findByEmailAndStatusTrue(request.email())
                 .ifPresentOrElse(user -> {
                     String token = UUID.randomUUID().toString();
                     user.setPasswordResetToken(hashToken(token));
@@ -86,7 +86,7 @@ public class AuthService {
     }
 
     public void forgotPasswordByPhone(ForgotPasswordPhoneRequest request) {
-        userRepository.findByPhoneNumber(request.phoneNumber())
+        userRepository.findByPhoneNumberAndStatusTrue(request.phoneNumber())
                 .ifPresent(user -> {
                     String otp = generateOtp();
                     user.setPasswordResetOtp(hashToken(otp));
@@ -98,7 +98,7 @@ public class AuthService {
     }
 
     public void resetPassword(ResetPasswordRequest request) {
-        User user = userRepository.findByPasswordResetToken(hashToken(request.token()))
+        User user = userRepository.findByPasswordResetTokenAndStatusTrue(hashToken(request.token()))
                 .orElseThrow(() -> new BadCredentialsException("Invalid reset token"));
 
         if (user.getPasswordResetTokenExpiresAt() == null
@@ -113,7 +113,7 @@ public class AuthService {
     }
 
     public void resetPasswordWithOtp(ResetPasswordWithOtpRequest request) {
-        User user = userRepository.findByPhoneNumber(request.phoneNumber())
+        User user = userRepository.findByPhoneNumberAndStatusTrue(request.phoneNumber())
                 .orElseThrow(() -> new BadCredentialsException("Invalid OTP"));
 
         if (user.getPasswordResetOtp() == null
@@ -136,9 +136,9 @@ public class AuthService {
         String value = identifier.trim();
         String uid = value.toLowerCase(Locale.ROOT);
 
-        return userRepository.findByEmail(value)
-                .or(() -> userRepository.findByPhoneNumber(value))
-                .or(() -> userRepository.findByUid(uid))
+        return userRepository.findByEmailAndStatusTrue(value)
+                .or(() -> userRepository.findByPhoneNumberAndStatusTrue(value))
+                .or(() -> userRepository.findByUidAndStatusTrue(uid))
                 .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
     }
 

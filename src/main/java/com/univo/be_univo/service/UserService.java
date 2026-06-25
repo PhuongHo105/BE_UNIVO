@@ -29,14 +29,14 @@ public class UserService {
     }
 
     public List<UserResponse> getAllUsers() {
-        return userRepository.findAll()
+        return userRepository.findByStatusTrue()
                 .stream()
                 .map(this::toResponse)
                 .toList();
     }
 
     public Optional<UserResponse> getUserById(UUID id) {
-        return userRepository.findById(id)
+        return userRepository.findByIdAndStatusTrue(id)
                 .map(this::toResponse);
     }
 
@@ -66,7 +66,7 @@ public class UserService {
     }
 
     public Optional<UserResponse> updateUser(UUID id, UpdateUserRequest request) {
-        return userRepository.findById(id)
+        return userRepository.findByIdAndStatusTrue(id)
                 .map(user -> {
                     if (request.uid() != null) {
                         String uid = normalizeUid(request.uid());
@@ -122,7 +122,7 @@ public class UserService {
     }
 
     public Optional<UserResponse> addPoint(UUID id, AddUserPointRequest request) {
-        return userRepository.findById(id)
+        return userRepository.findByIdAndStatusTrue(id)
                 .map(user -> {
                     long totalPoint = (long) user.getPoint() + request.point();
                     if (totalPoint > Integer.MAX_VALUE) {
