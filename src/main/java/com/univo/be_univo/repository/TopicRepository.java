@@ -9,5 +9,6 @@ import java.util.UUID;
 
 public interface TopicRepository extends JpaRepository<Topic, UUID> {
     List<Topic> findByStatusTrue();
+    Optional<Topic> findByIdAndStatusTrue(UUID id);
     Optional<Topic> findByTopicNameAndStatusTrue(String topicName);
 }
