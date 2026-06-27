@@ -26,5 +26,6 @@ public class Comment {
     private Post post;
     private Date createdAt;
     private Date updatedAt;
+    private String content;
     private boolean status;
 }
